@@ -17,6 +17,22 @@ npm run test:e2e     # בנייה + בדיקות דפדפן (Playwright, Chromiu
 
 את תוצאות ההשוואה הוויזואלית אפשר לראות ב-`e2e/__report__/`: הרפרנס, הצילום שלנו ומפת ההבדלים, זה לצד זה.
 
+## פריסה (GitHub Pages)
+
+- **`.github/workflows/deploy.yml`:** בכל push ל-`main` מריץ את בדיקות הלוגיקה והיחידה, typecheck ו-build. אם הכל עובר, הוא מפרסם את `dist/` ל-GitHub Pages. אפשר גם להפעיל אותו ידנית מלשונית Actions.
+- **`.github/workflows/ci.yml`:** בכל pull request מריץ את כל הבדיקות, כולל בדיקות הדפדפן. תמונות ההשוואה מצורפות להרצה כ-artifact בשם `e2e-report`.
+- **למה בדיקות הדפדפן לא חוסמות את הפריסה:** השוואת צילומים יכולה להשתנות מעט בין מכונות. לא נרצה שהבדל של פיקסלים יעכב תיקון תוכן דחוף ביום הכנס. הן רצות על כל PR, וחובה לעבור עליהן לפני המיזוג.
+
+**הגדרה חד-פעמית:**
+1. Settings ← Pages ← Source: לבחור **GitHub Actions**.
+2. למזג את הענף ל-`main`. הפריסה הראשונה תרוץ אוטומטית, והאתר יעלה ב-`https://ngg-global.github.io/NGGLanguage/`.
+3. **דומיין של NGG:** ב-DNS מוסיפים רשומת `CNAME` מתת-הדומיין (למשל `nexus.nggconsult.com`) אל `ngg-global.github.io`. אחר כך ב-Settings ← Pages ← Custom domain מזינים את תת-הדומיין ומסמנים **Enforce HTTPS**. אין צורך בקובץ CNAME בריפו.
+4. מעדכנים את `ui.share.link` ב-`content.json` לכתובת הסופית, ועושים commit. הכתובת תופיע על כרטיס השיתוף.
+
+**שינוי תוכן:** עורכים את `content/content.json`, ועושים commit ל-`main` (ישירות או דרך PR). האתר מתעדכן תוך כדקה–שתיים.
+
+**חזרה לגרסה קודמת:** Actions ← ההרצה המוצלחת האחרונה ← Re-run jobs. אפשר גם לעשות `git revert` ו-push.
+
 ## מבנה
 
 ```
