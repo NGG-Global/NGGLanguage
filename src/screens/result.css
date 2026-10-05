@@ -1,0 +1,88 @@
+.fade { opacity: 0; transition: opacity .5s ease; }
+.fade.is-on { opacity: 1; }
+
+/* ---------- S6 calc ---------- */
+.calc__spacer { height: 128px; flex: 0 0 auto; }
+.calc__text { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.calc__title { font-size: 21px; line-height: normal; font-weight: 800; color: var(--white); }
+.calc__sub { font-size: 14.5px; line-height: normal; color: var(--sky); }
+.calc__bar { position: relative; display: block; width: 140px; height: 2px; margin-top: 14px; overflow: hidden; background: rgba(141, 176, 255, .18); }
+.calc__bar span {
+  position: absolute;
+  inset: 0;
+  background: var(--mist);
+  transform-origin: right center;
+  transition: transform 1.7s var(--ease-inout);
+}
+
+/* ---------- R result ---------- */
+.result { padding-bottom: 34px; }
+.res__label { margin-top: 14px; font-size: 15px; line-height: normal; font-weight: 600; color: var(--sky); }
+/* The native-language name is revealed right-to-left with clip-path at 1.15s. */
+.res__name {
+  margin: 2px 0 0;
+  font-size: var(--fs-native);
+  line-height: var(--lh-native);
+  font-weight: 900;
+  letter-spacing: -.01em;
+  color: var(--magenta);
+  text-shadow: 0 0 34px rgba(236, 42, 140, .45);
+  clip-path: inset(-40px -40px -40px 100%);
+  transition: clip-path .9s var(--ease-inout);
+}
+.res__name.is-on { clip-path: inset(-40px -40px -40px -40px); }
+.res__persona { margin-top: 8px; font-size: 18px; line-height: normal; color: var(--white-soft); }
+.res__close { margin-top: 4px; font-size: 14px; line-height: normal; color: var(--magenta-pale); }
+/* With the extra "close second" line the save button must still sit above the
+   fold at 390×844 (acceptance 2): tighten the header block by ~14px in that case only. */
+.result.has-close .res__persona { margin-top: 2px; }
+.result.has-close .res__close { margin-top: 0; }
+.result.has-close .tmap__axes { margin-top: 6px !important; }
+
+.res__lower { display: flex; flex-direction: column; opacity: 0; transition: opacity .6s ease; }
+.res__lower.is-on { opacity: 1; }
+.res__divider { height: 1px; margin-top: 6px; background: rgba(141, 176, 255, .3); flex: 0 0 auto; }
+.res__divider--deep { margin-top: 34px; }
+
+.res__weak { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.res__weak-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.res__weak-labels { display: flex; flex-direction: column; gap: 2px; }
+.res__weak-label { font-size: 14px; line-height: normal; font-weight: 600; color: var(--sky); }
+.res__bring { font-size: 13px; line-height: normal; font-weight: 700; color: var(--magenta-pale); }
+.res__weak-name { margin: 0; font-size: var(--fs-weak-name); line-height: 1.2; font-weight: 900; color: var(--white); }
+.res__weak-text { margin: 0; font-size: 16.5px; line-height: var(--lh-body); color: var(--white-soft); text-wrap: pretty; }
+
+.res__save { margin-top: 16px; }
+.res__links { display: flex; justify-content: space-between; margin-top: 6px; }
+.res__links .linkbtn { padding: 0 2px; font-size: 14.5px; }
+.res__links .res__contact { display: flex; align-items: center; padding: 0; text-decoration: none; }
+.res__message { margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: var(--sky); text-align: center; }
+.res__message span { display: block; }
+
+.res__deep-label { margin-top: 22px; font-size: 14px; line-height: normal; font-weight: 600; color: var(--sky); }
+.res__deep { margin: 8px 0 0; font-size: 16.5px; line-height: var(--lh-body); color: var(--white-soft); text-wrap: pretty; }
+.res__price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: rgba(17, 17, 90, .6);
+}
+.res__price span { font-size: 13px; line-height: normal; font-weight: 700; color: var(--magenta-soft); }
+.res__price p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--mist); text-wrap: pretty; }
+.res__takeaway { display: flex; flex-direction: column; gap: 6px; margin-top: 22px; }
+.res__takeaway span { font-size: 14px; line-height: normal; font-weight: 600; color: var(--sky); }
+.res__takeaway p { margin: 0; font-size: 22px; line-height: 1.4; font-weight: 800; color: var(--white); text-wrap: pretty; }
+.res__balanced {
+  margin: 22px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: rgba(17, 17, 90, .8);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--mist);
+}
+.res__disclaimer { margin: 28px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--mist); opacity: .82; }
+.res__version { margin-top: 18px; font-size: 11.5px; line-height: normal; color: var(--sky); opacity: .85; text-align: center; }

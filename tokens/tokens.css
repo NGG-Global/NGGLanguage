@@ -1,0 +1,43 @@
+/* NGG · NEXUS 2026 · Luminous terrain — design tokens (source of truth for values) */
+:root {
+  /* color */
+  --night: #00002C;          /* page background */
+  --deep: #11115A;           /* panels/options at .55–.62 alpha */
+  --electric: #0044E8;       /* terrace fill, floor glow */
+  --electric-2: #2A5BEB;     /* selection, node dot, top layer */
+  --sky: #8DB0FF;            /* secondary text, lines, labels */
+  --mist: #CFE0FF;           /* body text */
+  --ice: #D6E2FF;            /* display headlines */
+  --white-soft: #E6EEFF;     /* emphasised body, toast */
+  --white: #FFFFFF;          /* item text, option labels, map labels (as in screens/) */
+  --magenta: #EC2A8C;        /* primary CTA, native-language name — participant only */
+  --magenta-press: #D11E78;
+  --magenta-neon: #FA218D;   /* light route, result node, focus ring */
+  --magenta-soft: #F284BD;   /* dashed weak-language outline */
+  --magenta-pale: #F7B3D6;   /* weak/native status text */
+  --on-magenta: #00002C;     /* text on magenta (≈5:1). Never white. */
+
+  /* type */
+  --font: 'Heebo', 'Assistant', system-ui, sans-serif;
+  --fs-native: 76px;  --lh-native: 1;    /* share card: 60px */
+  --fs-hero: 52px;    --lh-hero: 1.04;   /* weight 900 */
+  --fs-h2: 38px;      --lh-h2: 1.08;     /* weight 900 */
+  --fs-item: 25px;    --lh-item: 1.42;   /* weight 700, min-height 4 lines */
+  --fs-weak-name: 30px;
+  --fs-btn: 18px;                        /* weight 800 */
+  --fs-body: 17px;    --lh-body: 1.6;
+  --fs-label: 13px;
+
+  /* layout */
+  --content-w: 342px;  --gutter: 24px;  --radius: 4px;
+  --btn-h: 58px;  --opt-h: 56px;  --opt-gap: 10px;  --tap-min: 44px;
+
+  /* map */
+  --map-w: 342px;  --map-h: 344px;  --terrace-square: 92px;  --layer-step: 4.5px;
+  --iso: scaleY(.5) rotate(45deg);
+
+  /* motion */
+  --ease-out: cubic-bezier(.2,.7,.2,1);
+  --ease-inout: cubic-bezier(.65,0,.35,1);
+  --t-micro: 150ms;  --t-ui: 340ms;  --t-hero: 900ms;
+}

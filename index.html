@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#00002C">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="noindex">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="%DESCRIPTION%">
+    <title>%TITLE%</title>
+    <!-- Every image is fetched during the initial load: nothing goes to the network afterwards. -->
+    <link rel="preload" href="./boot/logo-triangle.png" as="image">
+    <link rel="preload" href="./boot/logo-swoosh.png" as="image">
+    <link rel="preload" href="./boot/logo-text.png" as="image">
+    <link rel="preload" href="./assets/ngg-logo-color.png" as="image">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+/* Luminous terrain map. Geometry from content.json; values from design-source/Main.dc.html.
+   Only transform, opacity and stroke-dashoffset transition. */
+
+.tmap { display: flex; flex-direction: column; flex: 0 0 auto; }
+
+.tmap__axes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  font-size: 13px;
+  line-height: normal;
+  color: var(--sky);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.tmap__axes.is-on { opacity: 1; }
+.tmap__axis-left { text-align: left; }
+
+.tmap__box { position: relative; margin: 10px auto 0; flex: 0 0 auto; }
+.tmap__stage { position: absolute; top: 0; right: 0; overflow: hidden; transform-origin: top right; }
+
+/* floor */
+.tmap__floor { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
+.tmap__floor.is-on { opacity: 1; }
+.tmap__glow { position: absolute; background: radial-gradient(closest-side, rgba(0, 68, 232, .42), rgba(0, 68, 232, 0)); }
+.tmap__grid {
+  position: absolute;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(141, 176, 255, .17) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(90deg, rgba(141, 176, 255, .17) 0 1px, transparent 1px 30px);
+  transform: var(--iso);
+}
+.tmap__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 58% 54% at 50% 57%, rgba(0, 0, 44, 0) 50%, var(--night) 100%);
+  pointer-events: none;
+}
+.tmap__stars { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease; }
+.tmap__stars.is-on { opacity: 1; }
+.star { position: absolute; border-radius: 50%; background: var(--mist); }
+
+/* terraces: 92px squares, iso-transformed, lifted 4.5px per layer */
+.layer {
+  position: absolute;
+  width: var(--terrace-square);
+  height: var(--terrace-square);
+  transform: translateY(var(--lift)) var(--iso);
+  transition: transform .8s var(--ease-out), opacity .45s ease;
+}
+.layer--blue { border: 1px solid rgba(141, 176, 255, var(--a)); background: rgba(0, 68, 232, .08); }
+.layer--blue.is-top { background: rgba(42, 91, 235, .34); }
+.layer--mag { border: 1px solid rgba(250, 33, 141, var(--a)); background: rgba(236, 42, 140, .10); }
+.layer--mag.is-top { background: rgba(236, 42, 140, .42); }
+.layer--calc { border: 1px solid rgba(141, 176, 255, .4); }
+/* Weak language: one dashed layer that "lights up" at 3.0s (sky → magenta-soft, crossfaded). */
+.layer--missing::before, .layer--missing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed var(--sky);
+  transition: opacity .6s ease;
+}
+.layer--missing::after { border-color: var(--magenta-soft); opacity: 0; }
+.layer--missing.is-lit::before { opacity: 0; }
+.layer--missing.is-lit::after { opacity: 1; }
+.layer__glow {
+  position: absolute;
+  inset: -1px;
+  box-shadow: 0 0 22px rgba(250, 33, 141, .55);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.layer__glow.is-on { opacity: 1; }
+
+/* calc dots */
+.cdot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 12px 3px rgba(141, 176, 255, .85);
+  transition: transform .9s var(--ease-inout);
+}
+
+/* light route */
+.route { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.route path {
+  fill: none;
+  stroke: var(--magenta-neon);
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(250, 33, 141, .85));
+  transition: stroke-dashoffset 1.1s var(--ease-inout);
+}
+.route circle { fill: var(--magenta-neon); transition: opacity .3s ease; }
+
+/* integration node: ring and halo sit behind the core, only transform/opacity animate */
+.node { position: absolute; width: 34px; height: 34px; transition: opacity .5s ease; }
+.node__ring, .node__halo, .node__core { position: absolute; inset: 0; border-radius: 50%; }
+.node__ring { background: var(--electric-2); animation: lt-ring-blue 2.4s ease-out infinite; }
+.node__halo { box-shadow: 0 0 18px rgba(42, 91, 235, .6); }
+.node__core {
+  border: 1.5px solid var(--mist);
+  background: var(--night);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.node__dot { width: 12px; height: 12px; border-radius: 50%; background: var(--electric-2); }
+.node--mag { animation: lt-node-in .3s ease both; }
+.node--mag .node__ring { background: var(--magenta-neon); animation: lt-ring-mag 1.2s ease-out 2 both; }
+.node--mag .node__halo { box-shadow: 0 0 22px rgba(250, 33, 141, .6); }
+.node--mag .node__core { border-color: var(--magenta-neon); }
+.node--mag .node__dot { background: var(--magenta-neon); }
+@keyframes lt-node-in { from { opacity: 0; } to { opacity: 1; } }
+.node__label {
+  position: absolute;
+  width: 120px;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: normal;
+  color: var(--sky);
+  transition: opacity .5s ease;
+}
+
+/* language labels */
+.mlabel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity .5s ease;
+}
+.mlabel__box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.mlabel__name { font-size: 17px; line-height: 1.3; font-weight: 800; color: var(--white); text-shadow: 0 1px 10px rgba(0, 0, 44, .9); }
+.mlabel__status { font-size: 12.5px; line-height: 1.3; font-weight: 600; color: var(--sky); text-shadow: 0 1px 10px rgba(0, 0, 44, .9); }
+.mlabel__bring { font-size: 12.5px; line-height: 1.3; font-weight: 700; color: var(--magenta-pale); }
+.mlabel--native .mlabel__name { color: var(--magenta-neon); }
+.mlabel--native .mlabel__status, .mlabel--missing .mlabel__status { color: var(--magenta-pale); }
+.mlabel--missing { padding: 5px 12px; border: 1px solid transparent; }
+.mlabel--missing::before, .mlabel--missing::after { content: ''; position: absolute; inset: -1px; pointer-events: none; }
+.mlabel--missing::before { border: 1px dashed rgba(141, 176, 255, .7); }
+.mlabel--missing::before, .mlabel--missing::after { transition: opacity .5s ease; }
+.mlabel--missing::after { border: 1px dashed var(--magenta-soft); opacity: 0; }
+.mlabel--missing.is-lit::after { opacity: 1; }
+.mlabel--missing.is-lit::before { opacity: 0; }
+
+.tmap__row {
+  position: absolute;
+  right: 0;
+  writing-mode: vertical-rl;
+  font-size: 12.5px;
+  line-height: normal;
+  color: var(--sky);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.tmap__row.is-on { opacity: 1; }
+.tmap__row--top { top: 70px; }
+.tmap__row--bottom { top: 196px; }
