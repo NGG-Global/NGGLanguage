@@ -18,19 +18,7 @@
   text-wrap: pretty;
 }
 .welcome__bottom { display: flex; flex-direction: column; flex-grow: 1; justify-content: flex-end; }
-.welcome__facts {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin: 4px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 13.5px;
-  line-height: normal;
-  color: var(--sky);
-}
 .welcome__cta { margin-top: 16px; }
-.welcome__foot { margin: 10px 0 0; font-size: 13px; line-height: normal; color: var(--sky); text-align: center; }
 
 /* ---------- S2 frame ---------- */
 .frame__title {

@@ -83,12 +83,13 @@ export interface Diff {
  * Screenshot vs reference (screens/*.png, @2x). Writes reference | ours | diff side by side
  * to e2e/__report__ for review and returns the mismatching pixel ratio.
  */
-export async function compareToReference(page: Page, name: string, ref: string, fullPage = false): Promise<Diff> {
+export async function compareToReference(page: Page, name: string, ref: string, fullPage = false, maxY?: number): Promise<Diff> {
   mkdirSync('e2e/__report__', { recursive: true });
   const shot = PNG.sync.read(await page.screenshot({ fullPage, animations: 'disabled', caret: 'hide' }));
   const refPng = PNG.sync.read(readFileSync(`reference/screens/${ref}`));
   const w = Math.min(shot.width, refPng.width);
-  const h = Math.min(shot.height, refPng.height);
+  // maxY (CSS px) limits the comparison to the part of the screen that should still match the reference.
+  const h = Math.min(shot.height, refPng.height, maxY ? maxY * 2 : Infinity);
   const crop = (src: PNG) => {
     const out = new PNG({ width: w, height: h });
     PNG.bitblt(src, out, 0, 0, w, h, 0, 0);

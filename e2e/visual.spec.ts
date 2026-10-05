@@ -12,8 +12,13 @@ test.describe('screens match the reference', () => {
     await open(page);
     await passBoot(page);
     await advance(page, 2500, 1600);
-    const d = await compareToReference(page, '02-S1-Welcome', '02-S1-Welcome.png');
+    // The facts row and footnote under the map were removed on request (the CTA moved down),
+    // so only the part above the CTA is compared with the reference.
+    const d = await compareToReference(page, '02-S1-Welcome', '02-S1-Welcome.png', false, 660);
     expect(await layoutProblems(page)).toEqual([]);
+    await expect(page.locator('.welcome__facts, .welcome__foot')).toHaveCount(0);
+    const cta = (await page.locator('.welcome .btn').boundingBox())!;
+    expect(cta.y + cta.height).toBeLessThanOrEqual(844 - 20);
     test.info().annotations.push({ type: 'diff', description: d.ratio.toFixed(4) });
     expect(d.ratio).toBeLessThan(MAX_DIFF);
   });

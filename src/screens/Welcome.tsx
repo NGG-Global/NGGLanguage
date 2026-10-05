@@ -30,13 +30,9 @@ export function Welcome({ settled, onStart }: { settled: boolean; onStart: () =>
       </p>
       <TerrainMap mode="welcome" stage={stage} analysis={null} ariaLabel={introAria()} axisTop={16} />
       <div className="welcome__bottom">
-        <ul className="welcome__facts lt-rise" style={{ animationDelay: '1.4s' }}>
-          {w.facts.map((f) => <li key={f}>{f}</li>)}
-        </ul>
         <div className="welcome__cta lt-rise" style={{ animationDelay: '1.4s' }}>
           <PrimaryButton breathe onClick={onStart}>{w.cta}</PrimaryButton>
         </div>
-        <p className="welcome__foot lt-rise" style={{ animationDelay: '1.4s' }}>{w.footnote}</p>
       </div>
     </main>
   );

@@ -23,9 +23,8 @@ describe('content.json', () => {
     expect(content.items.map((i) => i.lang).join('')).toBe('CMSPCSMPSCPM');
   });
 
-  it('uses "אבחון", "מבחן" and "מדויק" only in the disclaimer and the agreed "not a test" framing', () => {
-    // ui.welcome.footnote is the agreed framing line ("…לא מבחן") from CONTEXT §1.
-    const allowed = new Set(['ui.result.disclaimer', 'ui.welcome.footnote']);
+  it('uses "אבחון", "מבחן" and "מדויק" only in the disclaimer', () => {
+    const allowed = new Set(['ui.result.disclaimer']);
     const hits = strings(raw).filter(([p, s]) => !allowed.has(p) && /אבחון|מבחן|מדויק/.test(s));
     expect(hits).toEqual([]);
   });
