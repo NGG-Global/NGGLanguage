@@ -1,0 +1,106 @@
+/* ---------- header (all screens) ---------- */
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  margin-top: 22px;
+  flex: 0 0 auto;
+}
+.hdr__logo { height: 40px; width: auto; }
+.hdr__event { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.hdr__name { font-size: 14px; font-weight: 700; letter-spacing: .14em; color: var(--white-soft); line-height: 1; }
+.hdr__year { font-size: 12px; font-weight: 600; letter-spacing: .14em; color: var(--sky); line-height: 1; }
+
+/* ---------- icons ---------- */
+.icon { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.icon--thin { stroke-width: 2; }
+
+/* ---------- primary button ---------- */
+.btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--btn-h);
+  padding: 0 22px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--magenta);
+  color: var(--on-magenta);
+  font-size: var(--fs-btn);
+  font-weight: 800;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: transform .12s ease;
+}
+.btn:active { transform: scale(.985); background: var(--magenta-press); }
+.btn::before, .btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+/* S1 only: the CTA "breathes" (2.8s). Two glow layers; only opacity animates. */
+.btn--breathe::before { box-shadow: 0 10px 30px rgba(236, 42, 140, .25); }
+.btn--breathe::after {
+  box-shadow: 0 0 0 4px rgba(236, 42, 140, .18), 0 12px 38px rgba(236, 42, 140, .42);
+  opacity: 0;
+  animation: lt-breathe 2.8s ease-in-out infinite;
+}
+
+/* ---------- text button ---------- */
+.linkbtn {
+  min-height: var(--tap-min);
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--mist);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- level glyph ---------- */
+.glyph { position: relative; display: block; width: 26px; height: 28px; flex: 0 0 auto; }
+.glyph__l {
+  position: absolute;
+  left: 6px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(141, 176, 255, .22);
+  transform: scaleY(.5) rotate(45deg);
+}
+.glyph__l.is-on { border-color: var(--sky); background: rgba(42, 91, 235, .35); }
+.glyph.is-selected .glyph__l { border-color: rgba(255, 255, 255, .3); }
+.glyph.is-selected .glyph__l.is-on { border-color: var(--white); background: rgba(255, 255, 255, .28); }
+
+/* ---------- toast ---------- */
+.toast-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+.toast {
+  width: 100%;
+  max-width: calc(430px - 2 * var(--gutter));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--white-soft);
+  color: var(--on-magenta);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 12px 32px rgba(0, 0, 44, .6);
+}
+.toast svg { flex: 0 0 auto; fill: none; stroke: var(--electric); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }

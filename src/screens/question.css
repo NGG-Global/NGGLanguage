@@ -1,0 +1,196 @@
+/* ---------- S3 progress ---------- */
+.q__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+  margin-top: 12px;
+}
+.q__ticks { display: flex; align-items: center; gap: 7px; }
+.tick {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(141, 176, 255, .35);
+  transform: rotate(45deg);
+}
+.tick.is-done { background: var(--sky); border-color: var(--sky); }
+.tick.is-now { border-color: var(--white); }
+.q__counter { font-size: 14px; line-height: normal; font-weight: 600; color: var(--mist); }
+
+/* ---------- neutral core ---------- */
+.core { position: relative; height: 92px; margin-top: 4px; }
+.core__halo {
+  position: absolute;
+  left: 50%;
+  top: 46px;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  background: radial-gradient(closest-side, rgba(0, 68, 232, .42), rgba(0, 68, 232, 0));
+  transition: opacity .5s ease;
+}
+.core__iso {
+  position: absolute;
+  left: 50%;
+  top: 46px;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  border: 1px solid rgba(141, 176, 255, .25);
+  transform: var(--iso);
+}
+.core__orbit {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--mist);
+  box-shadow: 0 0 8px rgba(141, 176, 255, .9);
+  animation: q-fade-in .3s ease both;
+}
+@keyframes q-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.core__node {
+  position: absolute;
+  left: 50%;
+  top: 46px;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mist);
+  background: var(--night);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.core__glow { position: absolute; inset: -1.5px; border-radius: 50%; box-shadow: 0 0 10px rgba(42, 91, 235, .55); }
+/* The core "intensifies" with every answer: a stronger glow layer fades in. */
+.core__glow--strong { box-shadow: 0 0 46px 10px rgba(42, 91, 235, .55); transition: opacity .45s ease; }
+.core__dot { position: relative; width: 12px; height: 12px; border-radius: 50%; background: var(--electric-2); }
+
+/* ---------- statement ---------- */
+.q__stmt { margin-top: 14px; }
+.q__stmt.is-in { transform: translateX(0); opacity: 1; transition: transform .36s var(--ease-out), opacity .36s ease; }
+.q__stmt.is-out { transform: translateX(56px); opacity: 0; transition: transform .2s ease-in, opacity .2s ease-in; }
+.q__stmt.is-pre { transform: translateX(-56px); opacity: 0; transition: none; }
+.q__stmt.is-preBack { transform: translateX(56px); opacity: 0; transition: none; }
+.q__context { display: block; font-size: 14px; font-weight: 500; line-height: normal; color: var(--sky); }
+.q__text {
+  margin: 10px 0 0;
+  min-height: calc(4 * var(--lh-item) * var(--fs-item));
+  font-size: var(--fs-item);
+  line-height: var(--lh-item);
+  font-weight: 700;
+  color: var(--white);
+  text-wrap: pretty;
+}
+
+/* ---------- options ---------- */
+.q__opts { display: flex; flex-direction: column; gap: var(--opt-gap); }
+.opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  height: var(--opt-h);
+  padding: 0 16px 0 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(141, 176, 255, .3);
+  background: rgba(17, 17, 90, .62);
+  color: var(--white);
+  cursor: pointer;
+  transition: transform .12s ease;
+}
+.opt:active { transform: scale(.985); }
+.opt.is-selected { border-color: var(--mist); }
+/* Selection fills right-to-left in 280ms (scaleX from the right edge). */
+.opt__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: var(--electric-2);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform .28s var(--ease-out);
+}
+.opt.is-selected .opt__fill { transform: scaleX(1); }
+.opt::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: 0 0 24px rgba(42, 91, 235, .55);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.opt.is-selected::after { opacity: 1; }
+.opt__label { position: relative; font-size: var(--fs-body); font-weight: 600; }
+.opt__glyph { position: relative; display: block; }
+
+.q__back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  height: 44px;
+  align-self: flex-start;
+}
+
+/* ---------- light dot flying to the core ---------- */
+.fly {
+  position: absolute;
+  z-index: 5;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transition: transform .52s var(--ease-inout);
+}
+.fly__dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 14px 4px rgba(141, 176, 255, .9);
+  transition: transform .52s cubic-bezier(.3, 0, .2, 1), opacity .2s ease .4s;
+}
+@media (prefers-reduced-motion: reduce) { .fly { display: none; } }
+
+/* ---------- S5 tie-break ---------- */
+.tie__title { margin: 40px 0 0; font-size: var(--fs-h2); line-height: var(--lh-h2); font-weight: 900; color: var(--ice); }
+.tie__intro { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--mist); }
+.tie__q { margin: 22px 0 0; font-size: 23px; line-height: 1.42; font-weight: 700; color: var(--white); text-wrap: pretty; }
+.tie__opts { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.tieopt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 80px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(141, 176, 255, .4);
+  background: rgba(17, 17, 90, .62);
+  color: var(--white);
+  text-align: right;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .12s ease;
+}
+.tieopt:active { transform: scale(.985); }
+.tieopt.is-picked { border-color: var(--mist); }
+.tieopt__mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--sky);
+  transform: rotate(45deg);
+}
+.tieopt.is-picked .tieopt__mark { background: var(--electric-2); border-color: var(--mist); }

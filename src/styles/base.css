@@ -1,0 +1,58 @@
+@import '../../tokens/tokens.css';
+@import './fonts.css';
+@import './motion.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--night);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--night);
+  color: var(--white);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a { font-family: inherit; -webkit-tap-highlight-color: transparent; }
+button { -webkit-user-select: none; user-select: none; }
+img { display: block; }
+
+/* Centered column: phones fill it (360–430px), desktop gets a centered column. */
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--night);
+  overflow-x: clip;
+}
+
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 0 var(--gutter) 20px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+:focus-visible { outline: 2px solid var(--magenta-neon); outline-offset: 3px; }
+:focus:not(:focus-visible) { outline: none; }

@@ -1,0 +1,30 @@
+/* Motion layer. Based on design-source/terrain-motion.css; the box-shadow keyframes
+   were rebuilt so that only transform and opacity animate (CONTEXT §7). */
+
+@keyframes lt-twinkle { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+@keyframes lt-now { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@keyframes lt-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes lt-toast { 0% { opacity: 0; transform: translateY(12px); } 12%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(6px); } }
+/* Node pulse: an expanding, fading disc instead of an animated box-shadow ring. */
+@keyframes lt-ring-blue { from { transform: scale(1); opacity: .7; } to { transform: scale(2.3); opacity: 0; } }
+@keyframes lt-ring-mag { from { transform: scale(1); opacity: .75; } to { transform: scale(2.75); opacity: 0; } }
+/* CTA breathing: a glow layer fades in and out instead of an animated box-shadow. */
+@keyframes lt-breathe { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+.lt-twinkle { animation: lt-twinkle 3.2s ease-in-out infinite; }
+.lt-now { animation: lt-now 1.4s ease-in-out infinite; }
+.lt-rise { animation: lt-rise .7s var(--ease-out) both; }
+.lt-toast { animation: lt-toast 2.4s ease both; }
+
+/* Infinite loops stop while the tab is hidden. */
+:root[data-hidden] *, :root[data-hidden] *::before, :root[data-hidden] *::after { animation-play-state: paused !important; }
+
+/* Settled screens (e.g. back from S2 to S1) skip their entrance. */
+.no-entrance .lt-rise { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; transition-delay: 0ms !important;
+  }
+}
