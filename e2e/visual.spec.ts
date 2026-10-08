@@ -28,7 +28,8 @@ test.describe('screens match the reference', () => {
     await passBoot(page);
     await page.getByRole('button', { name: content.ui.welcome.cta }).click();
     await advance(page, 600, 800);
-    const d = await compareToReference(page, '03-S2-Frame', '03-S2-Frame.png');
+    // The scale caption was reworded after the reference was made (content 2026-10-08b).
+    const d = await compareToReference(page, '03-S2-Frame', '03-S2-Frame.png', false, undefined, ['.frame__caption']);
     expect(await layoutProblems(page)).toEqual([]);
     test.info().annotations.push({ type: 'diff', description: d.ratio.toFixed(4) });
     expect(d.ratio).toBeLessThan(MAX_DIFF);
@@ -51,7 +52,8 @@ test.describe('screens match the reference', () => {
     await page.getByRole('group').getByRole('button', { name: content.scale[1].label, exact: true }).click();
     // Timers are frozen before the 260ms exit: selection shown, statement still in place.
     await advance(page, 120, 500);
-    const d = await compareToReference(page, '05-S4-Answered', '05-S4-Answered.png');
+    // Statement 7 was reworded after the reference was made (content 2026-10-08b).
+    const d = await compareToReference(page, '05-S4-Answered', '05-S4-Answered.png', false, undefined, ['.q__text']);
     test.info().annotations.push({ type: 'diff', description: d.ratio.toFixed(4) });
     expect(d.ratio).toBeLessThan(MAX_DIFF);
   });
@@ -61,7 +63,8 @@ test.describe('screens match the reference', () => {
     await toFirstQuestion(page);
     await answer(page, [4, 4, 3, 3, 4, 3, 4, 2, 2, 4, 2, 4]); // C 12 = M 12
     await advance(page, 600, 900);
-    const d = await compareToReference(page, '06-S5-Tie', '06-S5-Tie.png');
+    // The tie-break question and options were reworded after the reference was made (content 2026-10-08b).
+    const d = await compareToReference(page, '06-S5-Tie', '06-S5-Tie.png', false, undefined, ['.tie__q', '.tie__opts']);
     expect(await layoutProblems(page)).toEqual([]);
     test.info().annotations.push({ type: 'diff', description: d.ratio.toFixed(4) });
     expect(d.ratio).toBeLessThan(MAX_DIFF);
