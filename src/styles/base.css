@@ -56,3 +56,22 @@ img { display: block; }
 
 :focus-visible { outline: 2px solid var(--magenta-neon); outline-offset: 3px; }
 :focus:not(:focus-visible) { outline: none; }
+
+/* ---------- short screens ----------
+   The reference layout is 390×844. Real phones often show less (Safari toolbars,
+   iPhone SE): below 800px of height the layout tightens in steps so that every
+   question fits without scrolling. Nothing changes at 844 and above. */
+@media (max-height: 800px) {
+  .screen { padding-bottom: 12px; }
+  .hdr { margin-top: 14px; height: 44px; }
+  .hdr__logo { height: 34px; }
+}
+@media (max-height: 680px) {
+  .hdr { margin-top: 10px; height: 40px; }
+  .hdr__logo { height: 30px; }
+}
+@media (max-height: 580px) {
+  .screen { padding-bottom: 8px; }
+  .hdr { margin-top: 6px; height: 36px; }
+  .hdr__logo { height: 28px; }
+}
