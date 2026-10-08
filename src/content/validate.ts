@@ -36,7 +36,7 @@ const UI_TEMPLATE = {
   brand: { event: S, year: S, logoAlt: S },
   listSeparator: S,
   boot: { title: S, cta: S, counter: S },
-  welcome: { title: [S], body: [S], facts: [S], cta: S, footnote: S },
+  welcome: { title: [S], body: [S], cta: S },
   frame: { title: [S], body: S, scaleCaption: S, note: S, cta: S, back: S },
   question: { context: S, counter: S, groupAria: S, back: S },
   tie: { title: S, intro: S, countWords: {}, question: S, stepLabel: S },

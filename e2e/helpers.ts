@@ -74,6 +74,15 @@ export async function toResult(page: Page, values: number[], tieLang?: string) {
   await advance(page, 3600, 1300);
 }
 
+function blank(img: PNG, x: number, y: number, w: number, h: number) {
+  const x0 = Math.max(0, Math.floor(x)), y0 = Math.max(0, Math.floor(y));
+  const x1 = Math.min(img.width, Math.ceil(x + w)), y1 = Math.min(img.height, Math.ceil(y + h));
+  for (let yy = y0; yy < y1; yy++) for (let xx = x0; xx < x1; xx++) {
+    const i = (yy * img.width + xx) * 4;
+    img.data[i] = 0; img.data[i + 1] = 0; img.data[i + 2] = 44; img.data[i + 3] = 255;
+  }
+}
+
 export interface Diff {
   ratio: number;
   file: string;
@@ -83,12 +92,23 @@ export interface Diff {
  * Screenshot vs reference (screens/*.png, @2x). Writes reference | ours | diff side by side
  * to e2e/__report__ for review and returns the mismatching pixel ratio.
  */
-export async function compareToReference(page: Page, name: string, ref: string, fullPage = false): Promise<Diff> {
+export async function compareToReference(
+  page: Page, name: string, ref: string, fullPage = false, maxY?: number, ignore: string[] = [],
+): Promise<Diff> {
   mkdirSync('e2e/__report__', { recursive: true });
   const shot = PNG.sync.read(await page.screenshot({ fullPage, animations: 'disabled', caret: 'hide' }));
   const refPng = PNG.sync.read(readFileSync(`reference/screens/${ref}`));
+  // Copy changed after the reference was made: blank those boxes in both images (with a margin).
+  for (const sel of ignore) {
+    for (const el of await page.locator(sel).all()) {
+      const r = await el.boundingBox();
+      if (!r) continue;
+      for (const img of [shot, refPng]) blank(img, (r.x - 8) * 2, (r.y - 8) * 2, (r.width + 16) * 2, (r.height + 16) * 2);
+    }
+  }
   const w = Math.min(shot.width, refPng.width);
-  const h = Math.min(shot.height, refPng.height);
+  // maxY (CSS px) limits the comparison to the part of the screen that should still match the reference.
+  const h = Math.min(shot.height, refPng.height, maxY ? maxY * 2 : Infinity);
   const crop = (src: PNG) => {
     const out = new PNG({ width: w, height: h });
     PNG.bitblt(src, out, 0, 0, w, h, 0, 0);
