@@ -14,7 +14,7 @@ export const CARD_SCALE = 3;
 const PAD = 26;
 const MAP_SCALE = 0.8;
 
-const C = {
+export const C = {
   night: '#00002C', sky: '#8DB0FF', mist: '#CFE0FF', ice: '#D6E2FF', whiteSoft: '#E6EEFF', white: '#FFFFFF',
   magenta: '#EC2A8C', neon: '#FA218D', soft: '#F284BD', pale: '#F7B3D6',
 };
@@ -84,15 +84,15 @@ export function cardStrings(m: CardModel): string[] {
 
 // ---------------------------------------------------------------- painter
 
-type Ctx = CanvasRenderingContext2D;
+export type Ctx = CanvasRenderingContext2D;
 type Align = 'left' | 'right' | 'center';
 
 /** RLM marks keep neutral characters (+, ?, punctuation) on the RTL side even where ctx.direction is unsupported. */
 const RLM = '‏';
-const rtl = (s: string) => RLM + s + RLM;
-const font = (weight: number, size: number) => `${weight} ${size}px Heebo, 'Assistant', system-ui, sans-serif`;
+export const rtl = (s: string) => RLM + s + RLM;
+export const font = (weight: number, size: number) => `${weight} ${size}px Heebo, 'Assistant', system-ui, sans-serif`;
 
-interface TextOpts {
+export interface TextOpts {
   x: number;
   top: number;
   size: number;
@@ -106,14 +106,14 @@ interface TextOpts {
   ltr?: boolean;
 }
 
-function baselineOf(ctx: Ctx, size: number, lh: number, text: string): number {
+export function baselineOf(ctx: Ctx, size: number, lh: number, text: string): number {
   const m = ctx.measureText(text);
   const asc = m.fontBoundingBoxAscent ?? size * 0.92;
   const desc = m.fontBoundingBoxDescent ?? size * 0.28;
   return (lh - (asc + desc)) / 2 + asc;
 }
 
-function text(ctx: Ctx, s: string, o: TextOpts): number {
+export function text(ctx: Ctx, s: string, o: TextOpts): number {
   ctx.save();
   ctx.font = font(o.weight, o.size);
   ctx.textAlign = o.align;
@@ -131,7 +131,7 @@ function text(ctx: Ctx, s: string, o: TextOpts): number {
   return w;
 }
 
-function measure(ctx: Ctx, s: string, weight: number, size: number): number {
+export function measure(ctx: Ctx, s: string, weight: number, size: number): number {
   ctx.save();
   ctx.font = font(weight, size);
   const w = ctx.measureText(rtl(s)).width;
@@ -140,7 +140,7 @@ function measure(ctx: Ctx, s: string, weight: number, size: number): number {
 }
 
 /** Latin text with CSS-like letter-spacing, drawn glyph by glyph (ctx.letterSpacing is not universal). */
-function spaced(ctx: Ctx, s: string, x: number, top: number, size: number, weight: number, lh: number, color: string, em: number) {
+export function spaced(ctx: Ctx, s: string, x: number, top: number, size: number, weight: number, lh: number, color: string, em: number) {
   ctx.save();
   ctx.font = font(weight, size);
   ctx.textAlign = 'left';

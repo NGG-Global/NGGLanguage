@@ -85,7 +85,7 @@ export function TerrainMap({ mode, stage, analysis, ariaLabel, axisTop = 10 }: T
         <span>{ui.map.axisRight}</span>
         <span className="tmap__axis-left">{ui.map.axisLeft}</span>
       </div>
-      <div className="tmap__box" role="img" aria-label={ariaLabel} style={{ width: W * scale, height: H * scale }}>
+      <div className="tmap__box" role="img" aria-label={ariaLabel} style={{ width: Math.floor(W * scale), height: Math.floor(H * scale) }}>
         <div className="tmap__stage" style={{ width: W, height: H, transform: `scale(${scale})` }}>
           <div className={`tmap__floor ${floorOn ? 'is-on' : ''}`}>
             <div className="tmap__glow" style={{ left: FLOOR.x, top: FLOOR.y, width: FLOOR.size, height: FLOOR.size }} />

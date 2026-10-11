@@ -13,9 +13,11 @@ test.describe('privacy', () => {
     await open(page);
     await page.waitForLoadState('networkidle');
     await toResult(page, SAMPLE);
-    const dl = page.waitForEvent('download');
-    await page.getByRole('button', { name: content.ui.result.save }).click();
-    await dl;
+    for (const name of [content.ui.result.save, content.ui.result.savePdf]) {
+      const dl = page.waitForEvent('download');
+      await page.getByRole('button', { name }).click();
+      await dl;
+    }
     expect(late).toEqual([]);
   });
 

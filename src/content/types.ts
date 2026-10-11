@@ -64,6 +64,7 @@ export interface Content {
       weakLabelMulti: string;
       bring: string;
       save: string;
+      savePdf: string;
       restart: string;
       restartConfirm: string;
       contact: string;
@@ -75,6 +76,7 @@ export interface Content {
       balanced: string;
       disclaimer: string;
       toast: string;
+      toastPdf: string;
       toastError: string;
       versionLabel: string;
     };
@@ -86,6 +88,7 @@ export interface Content {
       footer: string;
       link: string;
       fileName: string;
+      pdfFileName: string;
       shareTitle: string;
     };
     map: {

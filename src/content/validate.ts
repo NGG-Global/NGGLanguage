@@ -42,11 +42,11 @@ const UI_TEMPLATE = {
   tie: { title: S, intro: S, countWords: {}, question: S, stepLabel: S },
   calc: { title: S, sub: S },
   result: {
-    nativeLabel: S, closeSecond: S, weakLabelSingle: S, weakLabelMulti: S, bring: S, save: S,
+    nativeLabel: S, closeSecond: S, weakLabelSingle: S, weakLabelMulti: S, bring: S, save: S, savePdf: S,
     restart: S, restartConfirm: S, contact: S, contactUrl: S, message: [S], deepLabel: S,
-    priceLabel: S, takeawayLabel: S, balanced: S, disclaimer: S, toast: S, toastError: S, versionLabel: S,
+    priceLabel: S, takeawayLabel: S, balanced: S, disclaimer: S, toast: S, toastPdf: S, toastError: S, versionLabel: S,
   },
-  share: { nativeLabel: S, weakLabelSingle: S, weakLabelMulti: S, bring: S, footer: S, link: S, fileName: S, shareTitle: S },
+  share: { nativeLabel: S, weakLabelSingle: S, weakLabelMulti: S, bring: S, footer: S, link: S, fileName: S, pdfFileName: S, shareTitle: S },
   map: {
     axisRight: S, axisLeft: S, rowTop: S, rowBottom: S, node: S,
     status: { native: S, fluent: S, partial: S, basic: S, missing: S },

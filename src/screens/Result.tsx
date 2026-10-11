@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { content, fill, joinNames } from '../content';
-import { Header, LinkButton, PrimaryButton, Toast } from '../components/ui';
+import { Header, LinkButton, PrimaryButton, SecondaryButton, Toast } from '../components/ui';
 import { TerrainMap } from '../map/TerrainMap';
 import { useReducedMotion, useStages, useTimeout } from '../hooks';
 import type { Analysis } from '../logic';
-import { prepareCard, saveCard, type PreparedCard } from '../share/export';
+import { prepareCard, preparePdf, saveFile, type PreparedFile } from '../share/export';
 import './result.css';
 
 /** 0.1s terraces rise · 1.15s name · 1.9s light route + magenta node · 3.0s weak language lit. */
@@ -35,31 +35,37 @@ export function Result({ analysis, onRestart }: { analysis: Analysis; onRestart:
     else setConfirm(true);
   };
 
-  // The PNG is prepared ahead of the tap so the share sheet opens inside the
+  // Both files are prepared ahead of the tap so the share sheet opens inside the
   // user gesture (iOS Safari rejects navigator.share after a long await).
-  const card = useRef<Promise<PreparedCard> | null>(null);
+  type Kind = 'png' | 'pdf';
+  const prepare: Record<Kind, () => Promise<PreparedFile>> = {
+    png: () => prepareCard(analysis),
+    pdf: () => preparePdf(analysis),
+  };
+  const files = useRef<Record<Kind, Promise<PreparedFile> | null>>({ png: null, pdf: null });
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      card.current = prepareCard(analysis);
-    }, reduced ? 200 : 3400);
-    return () => clearTimeout(id);
+    const ids = [
+      window.setTimeout(() => { files.current.png ??= prepareCard(analysis); }, reduced ? 200 : 3400),
+      window.setTimeout(() => { files.current.pdf ??= preparePdf(analysis); }, reduced ? 600 : 4200),
+    ];
+    return () => ids.forEach(clearTimeout);
   }, [analysis, reduced]);
 
   const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
   useTimeout(() => setToast(null), toast ? 2600 : null, [toast?.id]);
-  const [saving, setSaving] = useState(false);
-  const save = async () => {
+  const [saving, setSaving] = useState<Kind | null>(null);
+  const exportFile = async (kind: Kind) => {
     if (saving) return;
-    setSaving(true);
+    setSaving(kind);
     try {
-      if (!card.current) card.current = prepareCard(analysis);
-      const outcome = await saveCard(card.current);
-      if (outcome !== 'cancelled') setToast({ id: Date.now(), text: r.toast });
+      files.current[kind] ??= prepare[kind]();
+      const outcome = await saveFile(files.current[kind]!);
+      if (outcome !== 'cancelled') setToast({ id: Date.now(), text: kind === 'pdf' ? r.toastPdf : r.toast });
     } catch {
-      card.current = null;
+      files.current[kind] = null;
       setToast({ id: Date.now(), text: r.toastError });
     } finally {
-      setSaving(false);
+      setSaving(null);
     }
   };
 
@@ -91,7 +97,8 @@ export function Result({ analysis, onRestart }: { analysis: Analysis; onRestart:
             <p className="res__weak-text">{L[k].weakText}</p>
           </section>
         ))}
-        <PrimaryButton className="res__save" onClick={save} aria-busy={saving}>{r.save}</PrimaryButton>
+        <PrimaryButton className="res__save" onClick={() => exportFile('png')} aria-busy={saving === 'png'}>{r.save}</PrimaryButton>
+        <SecondaryButton className="res__pdf" onClick={() => exportFile('pdf')} aria-busy={saving === 'pdf'}>{r.savePdf}</SecondaryButton>
         <div className="res__links">
           <LinkButton onClick={restart}>{confirm ? r.restartConfirm : r.restart}</LinkButton>
           <a className="linkbtn res__contact" href={r.contactUrl} target="_blank" rel="noopener noreferrer">{r.contact}</a>

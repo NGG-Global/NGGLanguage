@@ -92,9 +92,16 @@ test.describe('screens match the reference', () => {
   test('R result, full page', async ({ page }) => {
     await open(page);
     await toResult(page, SAMPLE);
-    const d = await compareToReference(page, '09-R1-ResultFull', '09-R1-ResultFull.png', true);
+    // The PDF button added under "שמירת המפה" pushes the lower section down by its height,
+    // so the comparison stops at the save button and the lower section is checked by content.
+    const save = (await page.locator('.res__save').boundingBox())!;
+    const d = await compareToReference(page, '09-R1-ResultFull', '09-R1-ResultFull.png', true, save.y + save.height);
+    await expect(page.locator('.res__pdf')).toHaveText(content.ui.result.savePdf);
+    for (const sel of ['.res__links', '.res__message', '.res__deep', '.res__price', '.res__takeaway', '.res__disclaimer', '.res__version']) {
+      await expect(page.locator(sel).first()).toBeVisible();
+    }
     test.info().annotations.push({ type: 'diff', description: d.ratio.toFixed(4) });
-    expect(d.ratio).toBeLessThan(MAX_DIFF * 1.5);
+    expect(d.ratio).toBeLessThan(MAX_DIFF);
   });
 
   test('R result with two weak languages', async ({ page }) => {
