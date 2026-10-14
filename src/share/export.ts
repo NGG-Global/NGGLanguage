@@ -35,7 +35,7 @@ async function ensureFonts(): Promise<void> {
   await Promise.all([
     document.fonts.load("400 16px Heebo", 'אבג'),
     document.fonts.load("900 16px Heebo", 'אבג'),
-    document.fonts.load("700 16px Heebo", 'NEXUS 2026'),
+    document.fonts.load('700 16px Heebo', `${content.ui.brand.event} ${content.ui.brand.year}`),
   ]);
   await document.fonts.ready;
 }

@@ -346,7 +346,7 @@ export function paintCard(ctx: Ctx, model: CardModel, assets: CardAssets) {
   ctx.fillRect(0, 0, CARD_W, CARD_H);
   const right = CARD_W - PAD;
 
-  // header: logo at the right (RTL start), NEXUS / 2026 at the left
+  // header: logo at the right (RTL start), event / year (ui.brand) at the left
   ctx.drawImage(assets.logo, right - 34, 22 + 4, 34, 40);
   spaced(ctx, model.brand.event, PAD, 32, 14, 700, 14, C.whiteSoft, 0.14);
   spaced(ctx, model.brand.year, PAD, 48, 12, 600, 12, C.sky, 0.14);

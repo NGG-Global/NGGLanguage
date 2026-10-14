@@ -3,11 +3,11 @@
   "status": "טיוטה – ממתין לאישור תוכן סופי",
   "ui": {
     "meta": {
-      "title": "איזו שפה אתם דוברים? · NGG · NEXUS 2026",
-      "description": "מיפוי רפלקטיבי קצר של ארבע השפות להטמעת AI בארגון. NGG, כנס NEXUS 2026."
+      "title": "איזו שפה אתם דוברים? · NGG · HRI 2026",
+      "description": "מיפוי רפלקטיבי קצר של ארבע השפות להטמעת AI בארגון. NGG, כנס HRI 2026."
     },
     "brand": {
-      "event": "NEXUS",
+      "event": "HRI",
       "year": "2026",
       "logoAlt": "NGG"
     },
@@ -93,8 +93,8 @@
       "bring": "+ להביא איתי",
       "footer": "איזו שפה אתם דוברים?",
       "link": "[קישור קצר]",
-      "fileName": "ngg-nexus-2026-map.png",
-      "pdfFileName": "ngg-nexus-2026-results.pdf",
+      "fileName": "ngg-hri-2026-map.png",
+      "pdfFileName": "ngg-hri-2026-results.pdf",
       "shareTitle": "איזו שפה אתם דוברים?"
     },
     "map": {

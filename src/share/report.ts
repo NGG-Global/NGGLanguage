@@ -93,7 +93,7 @@ export function paintReport(model: ReportModel, assets: Assets): HTMLCanvasEleme
     ctx.scale(k, k);
     ctx.fillStyle = C.night;
     ctx.fillRect(0, 0, PW, PH);
-    // header: logo at the right (RTL start), NEXUS / 2026 at the left
+    // header: logo at the right (RTL start), event / year (ui.brand) at the left
     ctx.drawImage(assets.logo, right - 34, TOP, 34, 40);
     spaced(ctx, model.brand.event, M, TOP + 6, 14, 700, 14, C.whiteSoft, 0.14);
     spaced(ctx, model.brand.year, M, TOP + 22, 12, 600, 12, C.sky, 0.14);
