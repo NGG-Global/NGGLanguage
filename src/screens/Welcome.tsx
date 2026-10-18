@@ -23,6 +23,7 @@ export function Welcome({ settled, onStart }: { settled: boolean; onStart: () =>
     <main className={`screen welcome ${settled ? 'no-entrance' : ''}`} tabIndex={-1}>
       <Header />
       <h1 className="welcome__title lt-rise" style={{ animationDelay: '.25s' }}>
+        <span className="welcome__kicker">{w.kicker}</span>
         {w.title.map((line) => <span key={line}>{line}</span>)}
       </h1>
       <p className="welcome__body lt-rise" style={{ animationDelay: '.4s' }}>

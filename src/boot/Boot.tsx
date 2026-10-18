@@ -234,6 +234,7 @@ export function Boot({ onDone }: BootProps) {
             className="boot__title"
             style={{ opacity: tIn, transform: `translateY(${(1 - tIn) * 18}px)`, filter: tIn < 1 ? `blur(${(1 - tIn) * 6}px)` : 'none' }}
           >
+            <span className="boot__kicker">{ui.boot.kicker}</span>
             {ui.boot.title}
           </h1>
           <button

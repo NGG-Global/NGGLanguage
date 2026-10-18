@@ -10,6 +10,15 @@
   color: var(--ice);
 }
 .welcome__title span, .welcome__body span, .frame__title span { display: block; }
+/* Tool name above the question; part of the h1 so the heading reads in full. */
+.welcome__title .welcome__kicker {
+  margin-bottom: 8px;
+  font-size: 17px;
+  line-height: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--sky);
+}
 .welcome__body {
   margin: 14px 0 0;
   font-size: var(--fs-body);
@@ -88,19 +97,22 @@
 /* S1 on short screens: smaller title and body, and a smaller map (--fit-max caps its scale). */
 @media (max-height: 800px) {
   .welcome__title { margin-top: 18px; font-size: 46px; }
+  .welcome__title .welcome__kicker { margin-bottom: 6px; font-size: 16px; }
   .welcome__body { margin-top: 10px; font-size: 16px; line-height: 1.55; }
   .welcome .tmap { --fit-max: .92; }
   .welcome .tmap__axes { margin-top: 10px !important; }
 }
 @media (max-height: 680px) {
   .welcome__title { margin-top: 10px; font-size: 40px; }
+  .welcome__title .welcome__kicker { margin-bottom: 4px; font-size: 15px; }
   .welcome__body { margin-top: 8px; font-size: 15px; line-height: 1.5; }
   .welcome .tmap { --fit-max: .74; }
   .welcome__cta { margin-top: 10px; }
 }
 @media (max-height: 580px) {
-  .welcome__title { margin-top: 6px; font-size: 34px; }
-  .welcome__body { font-size: 14px; line-height: 1.45; }
+  .welcome__title { margin-top: 4px; font-size: 32px; }
+  .welcome__title .welcome__kicker { margin-bottom: 2px; font-size: 14px; }
   .welcome .tmap { --fit-max: .6; }
+  .welcome__body { font-size: 14px; line-height: 1.45; }
   .welcome .tmap__axes { margin-top: 6px !important; font-size: 12px; }
 }

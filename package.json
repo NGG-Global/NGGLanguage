@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "NGG · NEXUS 2026 · איזו שפה אתם דוברים? — static mobile site",
+  "description": "NGG · HRI 2026 · ארבעה מימדים למוכנות ארגונית ל-AI — static mobile site",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

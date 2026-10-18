@@ -51,8 +51,8 @@ export interface Content {
     meta: { title: string; description: string };
     brand: { event: string; year: string; logoAlt: string };
     listSeparator: string;
-    boot: { title: string; cta: string; counter: string };
-    welcome: { title: string[]; body: string[]; cta: string };
+    boot: { kicker: string; title: string; cta: string; counter: string };
+    welcome: { kicker: string; title: string[]; body: string[]; cta: string };
     frame: { title: string[]; body: string; scaleCaption: string; note: string; cta: string; back: string };
     question: { context: string; counter: string; groupAria: string; back: string };
     tie: { title: string; intro: string; countWords: Record<string, string>; question: string; stepLabel: string };
