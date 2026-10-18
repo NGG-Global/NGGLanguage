@@ -7,3 +7,4 @@ e2e/__report__
 *.log
 .DS_Store
 e2e/.tmp
+*.tsbuildinfo

@@ -88,6 +88,8 @@ for (const size of [
       await open(page);
       await passBoot(page);
       await advance(page, 2500, 1500);
+      // The CTA's entrance (translateY) runs on real time; measure the settled layout.
+      await page.locator('.welcome__cta').evaluate((e) => Promise.all(e.getAnimations().map((a) => a.finished)));
       seen.welcome = await overflow();
       await page.getByRole('button', { name: content.ui.welcome.cta }).click();
       await advance(page, 400, 600);

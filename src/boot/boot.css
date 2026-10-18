@@ -110,6 +110,14 @@
   text-align: center;
   text-wrap: balance;
 }
+.boot__kicker {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 600;
+  color: var(--sky);
+}
 /* CTA in the interface's primary-button style (4px radius, #00002C on magenta). */
 .boot__cta { transition: none; }
 .boot__cta-glow { position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 28px rgba(236, 42, 140, .45); pointer-events: none; }

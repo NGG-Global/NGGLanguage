@@ -13,8 +13,12 @@ test.describe('screens match the reference', () => {
     await passBoot(page);
     await advance(page, 2500, 1600);
     // The facts row and footnote under the map were removed on request (the CTA moved down),
-    // so only the part above the CTA is compared with the reference.
-    const d = await compareToReference(page, '02-S1-Welcome', '02-S1-Welcome.png', false, 660);
+    // and the tool name line was added above the title (content 2026-10-18a), which moves the
+    // title, body and map down. Only the header still matches the reference pixel for pixel;
+    // the rest is checked for layout and for the CTA position.
+    const kicker = (await page.locator('.welcome__kicker').boundingBox())!;
+    const d = await compareToReference(page, '02-S1-Welcome', '02-S1-Welcome.png', false, kicker.y);
+    await expect(page.locator('.welcome .tmap')).toBeVisible();
     expect(await layoutProblems(page)).toEqual([]);
     await expect(page.locator('.welcome__facts, .welcome__foot')).toHaveCount(0);
     const cta = (await page.locator('.welcome .btn').boundingBox())!;
