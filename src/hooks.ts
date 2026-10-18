@@ -49,18 +49,28 @@ export function usePageVisibility(): void {
   }, []);
 }
 
-/** Scale factor that fits a fixed-width element into its container (never above 1). */
+/**
+ * Scale factor that fits a fixed-width element into its container (never above 1).
+ * CSS can cap it further with `--fit-max` (used on short screens, see base.css).
+ */
 export function useFitScale<T extends HTMLElement>(designWidth: number) {
   const ref = useRef<T>(null);
   const [scale, setScale] = useState(1);
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const measure = () => setScale(Math.min(1, el.clientWidth / designWidth));
+    const measure = () => {
+      const cap = parseFloat(getComputedStyle(el).getPropertyValue('--fit-max')) || 1;
+      setScale(Math.min(1, cap, el.clientWidth / designWidth));
+    };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
   }, [designWidth]);
   return [ref, scale] as const;
 }

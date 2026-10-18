@@ -51,6 +51,27 @@
   animation: lt-breathe 2.8s ease-in-out infinite;
 }
 
+/* ---------- secondary button (outline) ---------- */
+.btn2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 48px;
+  border: 1px solid rgba(141, 176, 255, .45);
+  border-radius: var(--radius);
+  background: rgba(17, 17, 90, .62);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: transform .12s ease;
+}
+.btn2:active { transform: scale(.985); }
+.btn2[aria-busy="true"] { opacity: .7; }
+
 /* ---------- text button ---------- */
 .linkbtn {
   min-height: var(--tap-min);

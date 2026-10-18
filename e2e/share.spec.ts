@@ -70,4 +70,23 @@ test.describe('share card', () => {
     writeFileSync('e2e/__report__/share-card-three-weak.png', png);
     expect(PNG.sync.read(png).height).toBe(1920);
   });
+
+  test('PDF export: a valid A4 PDF with the full result', async ({ page }) => {
+    await open(page);
+    await toResult(page, [5, 4, 2, 2, 5, 2, 4, 2, 2, 4, 2, 3]); // two weak languages: the longest report
+    const downloadP = page.waitForEvent('download');
+    await page.getByRole('button', { name: content.ui.result.savePdf }).click();
+    const dl = await downloadP;
+    expect(dl.suggestedFilename()).toBe(content.ui.share.pdfFileName);
+    const pdf = readFileSync((await dl.path())!);
+    writeFileSync('e2e/__report__/results.pdf', pdf);
+    const text = pdf.toString('latin1');
+    expect(text.startsWith('%PDF-1.4')).toBe(true);
+    expect(text).toContain('/MediaBox [0 0 595.28 841.89]');
+    const pages = Number(text.match(/\/Count (\d+)/)![1]);
+    expect(pages).toBeGreaterThanOrEqual(1);
+    expect(pages).toBeLessThanOrEqual(3);
+    expect(pdf.length).toBeLessThan(3_000_000);
+    await expect(page.getByRole('status')).toHaveText(content.ui.result.toastPdf);
+  });
 });

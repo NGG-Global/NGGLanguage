@@ -108,7 +108,7 @@ export async function compareToReference(
   }
   const w = Math.min(shot.width, refPng.width);
   // maxY (CSS px) limits the comparison to the part of the screen that should still match the reference.
-  const h = Math.min(shot.height, refPng.height, maxY ? maxY * 2 : Infinity);
+  const h = Math.min(shot.height, refPng.height, maxY ? Math.round(maxY * 2) : Infinity);
   const crop = (src: PNG) => {
     const out = new PNG({ width: w, height: h });
     PNG.bitblt(src, out, 0, 0, w, h, 0, 0);

@@ -53,6 +53,7 @@
 .res__weak-text { margin: 0; font-size: 16.5px; line-height: var(--lh-body); color: var(--white-soft); text-wrap: pretty; }
 
 .res__save { margin-top: 16px; }
+.res__pdf { margin-top: 10px; }
 .res__links { display: flex; justify-content: space-between; margin-top: 6px; }
 .res__links .linkbtn { padding: 0 2px; font-size: 14.5px; }
 .res__links .res__contact { display: flex; align-items: center; padding: 0; text-decoration: none; }

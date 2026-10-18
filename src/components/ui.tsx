@@ -46,6 +46,18 @@ export function PrimaryButton({ breathe, className = '', children, ...rest }: Bt
   );
 }
 
+/** Secondary action (outline): e.g. the PDF export under the main save button. */
+export function SecondaryButton({ className = '', children, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button type="button" className={`btn2 ${className}`} {...rest}>
+      <svg className="icon icon--thin" width={18} height={18} viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+      </svg>
+      <span>{children}</span>
+    </button>
+  );
+}
+
 export function LinkButton({ className = '', children, ...rest }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button type="button" className={`linkbtn ${className}`} {...rest}>

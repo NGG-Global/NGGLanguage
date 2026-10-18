@@ -194,3 +194,46 @@
   transform: rotate(45deg);
 }
 .tieopt.is-picked .tieopt__mark { background: var(--electric-2); border-color: var(--mist); }
+
+/* ---------- short screens (see base.css) ---------- */
+@media (max-height: 800px) {
+  .q__top { margin-top: 8px; }
+  /* The core keeps its geometry and is scaled, so the light dot still lands on it. */
+  .core { transform: scale(.72); margin: -9px 0 -13px; }
+  .q__stmt { margin-top: 8px; }
+  .q__text { margin-top: 8px; font-size: 22px; line-height: 1.38; min-height: calc(4 * 1.38 * 22px); }
+  .q__opts { gap: 8px; }
+  .opt { height: 50px; }
+  .q__back { margin-top: 4px; }
+
+  .tie__title { margin-top: 24px; font-size: 34px; }
+  .tie__q { margin-top: 16px; font-size: 21px; }
+  .tie__opts { margin-top: 16px; gap: 8px; }
+  .tieopt { min-height: 64px; padding: 12px 16px; font-size: 16px; line-height: 1.45; }
+}
+@media (max-height: 680px) {
+  .core { transform: scale(.55); margin: -17px 0 -21px; }
+  .q__text { font-size: 20px; line-height: 1.36; min-height: calc(4 * 1.36 * 20px); }
+  .q__context { font-size: 13px; }
+  .q__opts { gap: 6px; }
+  .opt { height: 46px; }
+  .opt__label { font-size: 16px; }
+
+  .tie__title { margin-top: 16px; font-size: 30px; }
+  .tie__intro { font-size: 15px; }
+  .tie__q { margin-top: 12px; font-size: 19px; line-height: 1.38; }
+  .tieopt { min-height: 56px; padding: 10px 14px; font-size: 15px; }
+}
+@media (max-height: 580px) {
+  .q__top { margin-top: 4px; }
+  .core { transform: scale(.36); margin: -26px 0 -32px; }
+  .q__text { font-size: 18px; line-height: 1.35; min-height: 0; }
+  .q__opts { gap: 5px; }
+  .opt { height: 44px; }
+  .q__back { margin-top: 0; }
+
+  .tie__title { margin-top: 10px; font-size: 26px; }
+  .tie__q { font-size: 17px; }
+  .tie__opts { margin-top: 12px; gap: 6px; }
+  .tieopt { min-height: 48px; padding: 8px 12px; font-size: 14px; line-height: 1.4; }
+}

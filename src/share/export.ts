@@ -1,15 +1,19 @@
-// Client-side export of the share card: PNG 1080×1920, then the system share
-// sheet (Web Share API with files) on touch devices, or a plain download.
-// No server, no network: canvas → Blob → File.
+// Client-side exports: the share card (PNG 1080×1920) and the full results
+// report (PDF, A4). Then the system share sheet (Web Share API with files) on
+// touch devices, or a plain download. No server, no network: canvas → Blob → File.
 
 import { content } from '../content';
 import type { Analysis } from '../logic';
 import { CARD_H, CARD_SCALE, CARD_W, buildCardModel, paintCard } from './card';
+import { PAGE, REPORT_SCALE, buildReportModel, paintReport } from './report';
+import { buildPdf } from './pdf';
 
-export interface PreparedCard {
+export interface PreparedFile {
   blob: Blob;
   file: File;
 }
+/** @deprecated name kept for the PNG card; same shape as PreparedFile. */
+export type PreparedCard = PreparedFile;
 
 export type SaveOutcome = 'shared' | 'downloaded' | 'cancelled';
 
@@ -31,7 +35,7 @@ async function ensureFonts(): Promise<void> {
   await Promise.all([
     document.fonts.load("400 16px Heebo", 'אבג'),
     document.fonts.load("900 16px Heebo", 'אבג'),
-    document.fonts.load("700 16px Heebo", 'NEXUS 2026'),
+    document.fonts.load('700 16px Heebo', `${content.ui.brand.event} ${content.ui.brand.year}`),
   ]);
   await document.fonts.ready;
 }
@@ -57,6 +61,31 @@ export async function prepareCard(analysis: Analysis): Promise<PreparedCard> {
   return { blob, file: new File([blob], content.ui.share.fileName, { type: 'image/png' }) };
 }
 
+const toBlob = (canvas: HTMLCanvasElement, type: string, quality?: number) =>
+  new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob failed'))), type, quality));
+
+/** Full results as an A4 PDF: pages drawn on canvas, embedded as JPEG. */
+export async function preparePdf(analysis: Analysis): Promise<PreparedFile> {
+  const [logo] = await Promise.all([loadLogo(), ensureFonts()]);
+  const newCanvas = () => {
+    const c = document.createElement('canvas');
+    c.width = Math.round(PAGE[0] * REPORT_SCALE);
+    c.height = Math.round(PAGE[1] * REPORT_SCALE);
+    return c;
+  };
+  const canvases = paintReport(buildReportModel(content, analysis), { logo, content, newCanvas });
+  const pages = [];
+  for (const c of canvases) {
+    const jpeg = new Uint8Array(await (await toBlob(c, 'image/jpeg', 0.9)).arrayBuffer());
+    pages.push({ jpeg, px: [c.width, c.height] as [number, number] });
+    c.width = 0; // release the bitmap early (matters on iOS)
+  }
+  const bytes = buildPdf(pages, PAGE, content.ui.share.shareTitle);
+  const blob = new Blob([bytes], { type: 'application/pdf' });
+  return { blob, file: new File([blob], content.ui.share.pdfFileName, { type: 'application/pdf' }) };
+}
+
 function download(blob: Blob, name: string) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -71,7 +100,7 @@ function download(blob: Blob, name: string) {
 
 const touchDevice = () => typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
 
-export async function saveCard(prepared: Promise<PreparedCard>): Promise<SaveOutcome> {
+export async function saveFile(prepared: Promise<PreparedFile>): Promise<SaveOutcome> {
   const { blob, file } = await prepared;
   const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
   if (touchDevice() && nav.share && nav.canShare?.({ files: [file] })) {
@@ -83,6 +112,8 @@ export async function saveCard(prepared: Promise<PreparedCard>): Promise<SaveOut
       // NotAllowedError (gesture expired) or unsupported type: fall back to a download.
     }
   }
-  download(blob, content.ui.share.fileName);
+  download(blob, file.name);
   return 'downloaded';
 }
+
+export const saveCard = saveFile;

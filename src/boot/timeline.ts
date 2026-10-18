@@ -67,7 +67,7 @@ export const hash = (n: number) => {
   return x - Math.floor(x);
 };
 
-/** Decorative glyph pool for the "NEXUS 2026" decode. Not UI copy. */
+/** Decorative glyph pool for the event-name decode (ui.brand). Not UI copy. */
 const GLYPHS = 'ABCDEFGHJKLMNPRSTUVWXYZ0123456789#/<>';
 
 export function scramble(target: string, p: number, T: number): string {
